@@ -1,0 +1,26 @@
+name: dashboard-kit-addon-recaptcha
+repo_url: https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha
+license: BUSL-1.1
+license_change_date: "2099-01-01"
+license_contact: https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.
+
+badges:
+  - name: Packagist Version
+    image: https://img.shields.io/packagist/v/rafalmasiarek/dashboard-kit-addon-recaptcha
+    url: https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha
+  - name: Total Downloads
+    image: https://img.shields.io/packagist/dt/rafalmasiarek/dashboard-kit-addon-recaptcha
+    url: https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha
+  - name: PHP
+    image: https://img.shields.io/packagist/php-v/rafalmasiarek/dashboard-kit-addon-recaptcha
+    url: https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha
+  - name: License
+    image: https://img.shields.io/badge/license-BUSL--1.1-red
+    url: https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/blob/main/LICENSE
+
+context: []
+
+authors:
+  - name: Rafał Masiarek
+    github: rafalmasiarek
+    website: https://masiarek.pl

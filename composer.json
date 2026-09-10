@@ -1,0 +1,17 @@
+{
+  "name": "rafalmasiarek/dashboard-kit-addon-recaptcha",
+  "description": "Google reCAPTCHA v2 addon for rafalmasiarek/dashboard-kit. Injects captcha into login and register forms with always or x-failed-attempts modes.",
+  "type": "library",
+  "license": "BUSL-1.1",
+  "require": {
+    "php": ">=8.2",
+    "rafalmasiarek/dashboard-kit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "rafalmasiarek\\DashboardKitRecaptcha\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
