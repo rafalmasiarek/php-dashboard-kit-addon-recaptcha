@@ -11,7 +11,8 @@ use rafalmasiarek\DashboardKit\Hook\HookRegistry;
 use Slim\App;
 
 /**
- * Wires Google reCAPTCHA v2 into dashboard-kit login and register forms.
+ * Wires Google reCAPTCHA (v2 checkbox or v3 invisible) into dashboard-kit
+ * login and register forms.
  *
  * @package rafalmasiarek\DashboardKitRecaptcha
  */
@@ -22,7 +23,11 @@ final class RecaptchaAddon
      *
      * @param App                  $app       Slim application instance.
      * @param ContainerInterface   $container PHP-DI container.
-     * @param array<string, mixed> $config    Addon configuration (site_key, secret_key, login, register).
+     * @param array<string, mixed> $config    Addon configuration: site_key, secret_key,
+     *                                         version ('v2'|'v3', default 'v2'), login, register.
+     *                                         login/register may be `true`/`false` or an array
+     *                                         with 'mode'/'threshold' (v2, login only), 'min_score'
+     *                                         and 'action' (v3 only, both optional).
      * @return void
      */
     public static function register(App $app, ContainerInterface $container, array $config = []): void
@@ -39,6 +44,7 @@ final class RecaptchaAddon
 
         $siteKey   = (string) ($config['site_key']   ?? '');
         $secretKey = (string) ($config['secret_key'] ?? '');
+        $version   = (string) ($config['version']    ?? 'v2') === 'v3' ? 'v3' : 'v2';
 
         if ($siteKey === '' || $secretKey === '') {
             throw new \InvalidArgumentException(
@@ -50,15 +56,16 @@ final class RecaptchaAddon
         $tracker  = new FailedLoginTracker();
 
         $loginConfig    = $config['login']    ?? false;
-        $registerConfig = (bool) ($config['register'] ?? false);
+        $registerConfig = $config['register'] ?? false;
 
         if ($loginConfig !== false) {
-            $loginConfig = (array) $loginConfig;
-            self::wireLogin($container, $verifier, $tracker, $siteKey, $loginConfig);
+            $loginConfig = $loginConfig === true ? [] : (array) $loginConfig;
+            self::wireLogin($container, $verifier, $tracker, $siteKey, $version, $loginConfig);
         }
 
-        if ($registerConfig) {
-            self::wireRegister($container, $verifier, $siteKey);
+        if ($registerConfig !== false) {
+            $registerConfig = $registerConfig === true ? [] : (array) $registerConfig;
+            self::wireRegister($container, $verifier, $siteKey, $version, $registerConfig);
         }
     }
 
@@ -66,14 +73,17 @@ final class RecaptchaAddon
      * Wire reCAPTCHA into the login form.
      *
      * Registers form slots and wraps the before_login hook to verify the token.
-     * In x_failed mode, the captcha is shown and verified only after the threshold
-     * of consecutive failed attempts is reached within the current session.
+     * In x_failed mode (v2 only), the captcha is shown and verified only after
+     * the threshold of consecutive failed attempts is reached within the
+     * current session. v3 is invisible and, having no widget to show/hide,
+     * always runs.
      *
-     * @param ContainerInterface        $container
-     * @param RecaptchaVerifier         $verifier
-     * @param FailedLoginTracker        $tracker
-     * @param string                    $siteKey
-     * @param array<string, mixed>      $loginConfig
+     * @param ContainerInterface   $container
+     * @param RecaptchaVerifier    $verifier
+     * @param FailedLoginTracker   $tracker
+     * @param string               $siteKey
+     * @param string               $version     'v2' or 'v3'.
+     * @param array<string, mixed> $loginConfig v2: 'mode', 'threshold'. v3: 'min_score', 'action'.
      * @return void
      */
     private static function wireLogin(
@@ -81,29 +91,29 @@ final class RecaptchaAddon
         RecaptchaVerifier $verifier,
         FailedLoginTracker $tracker,
         string $siteKey,
+        string $version,
         array $loginConfig,
     ): void {
         $mode      = (string) ($loginConfig['mode'] ?? 'always');
         $threshold = (int)    ($loginConfig['threshold'] ?? 3);
-        $always    = ($mode !== 'x_failed');
+        $always    = ($version === 'v3') || ($mode !== 'x_failed');
+        $minScore  = isset($loginConfig['min_score']) ? (float) $loginConfig['min_score'] : null;
+        $action    = (string) ($loginConfig['action'] ?? 'login');
 
         $formSlots = $container->get(FormSlotRegistry::class);
 
-        $formSlots->register('login', 'form_fields', static function () use ($siteKey, $always, $threshold, $tracker): string {
+        $formSlots->register('login', 'form_fields', static function () use ($siteKey, $version, $action, $always, $threshold, $tracker): string {
             if (!$always && $tracker->count() < $threshold) {
                 return '';
             }
-            return '<div class="g-recaptcha mb-3 js-dk-recaptcha"'
-                . ' data-sitekey="' . \htmlspecialchars($siteKey, \ENT_QUOTES) . '"'
-                . ' data-callback="dashboardKitCaptchaSuccess"'
-                . ' data-expired-callback="dashboardKitCaptchaExpired"></div>';
+            return self::widgetMarkup($version, $siteKey, $action);
         });
 
-        $formSlots->register('login', 'scripts', static function () use ($always, $threshold, $tracker): string {
+        $formSlots->register('login', 'scripts', static function () use ($siteKey, $version, $action, $always, $threshold, $tracker): string {
             if (!$always && $tracker->count() < $threshold) {
                 return '';
             }
-            return self::captchaScripts();
+            return self::scripts($version, $siteKey, $action);
         });
 
         $hooks = $container->get(HookRegistry::class);
@@ -132,6 +142,8 @@ final class RecaptchaAddon
             $tracker,
             $always,
             $threshold,
+            $minScore,
+            $action,
             $ipResolver,
         ): ?string {
             if ($existing !== null) {
@@ -152,7 +164,7 @@ final class RecaptchaAddon
                 ? ($ipResolver->getIp() ?: '')
                 : (string) ($request->getServerParams()['REMOTE_ADDR'] ?? '');
 
-            if (!$verifier->verify($token, $ip)) {
+            if (!$verifier->verify($token, $ip, $minScore, $minScore !== null ? $action : null)) {
                 return 'Please complete the CAPTCHA verification.';
             }
 
@@ -167,9 +179,45 @@ final class RecaptchaAddon
      * re-enables it only after the reCAPTCHA challenge is solved. The button is
      * disabled again when the token expires.
      *
+     * @param  string $version 'v2' or 'v3'.
+     * @param  string $siteKey Site key (only needed by v3, embedded in the execute() call).
+     * @param  string $action  v3 only: action name passed to grecaptcha.execute().
+     * @return string          HTML to inject into the scripts slot.
+     */
+    private static function scripts(string $version, string $siteKey, string $action): string
+    {
+        return $version === 'v3' ? self::v3Scripts($siteKey, $action) : self::v2Scripts();
+    }
+
+    /**
+     * Widget markup for the form_fields slot.
+     *
+     * v2 renders the visible checkbox div; v3 has no widget — only a hidden
+     * field the script fills in right before submit.
+     *
+     * @param  string $version 'v2' or 'v3'.
+     * @param  string $siteKey Site key (only used by the v2 checkbox's data-sitekey).
+     * @param  string $action  Unused for v2; kept for a uniform call signature.
+     * @return string          HTML to inject into the form_fields slot.
+     */
+    private static function widgetMarkup(string $version, string $siteKey, string $action): string
+    {
+        if ($version === 'v3') {
+            return '<input type="hidden" name="g-recaptcha-response" class="js-dk-recaptcha-v3">';
+        }
+
+        return '<div class="g-recaptcha mb-3 js-dk-recaptcha"'
+            . ' data-sitekey="' . \htmlspecialchars($siteKey, \ENT_QUOTES) . '"'
+            . ' data-callback="dashboardKitCaptchaSuccess"'
+            . ' data-expired-callback="dashboardKitCaptchaExpired"></div>';
+    }
+
+    /**
+     * v2 checkbox scripts: loads the API and blocks submit until solved.
+     *
      * @return string HTML to inject into the scripts slot.
      */
-    private static function captchaScripts(): string
+    private static function v2Scripts(): string
     {
         $script = self::minifyInlineJs(<<<'JS'
 (function () {
@@ -219,6 +267,42 @@ JS);
     }
 
     /**
+     * v3 invisible scripts: intercepts submit, fetches a token, fills the
+     * hidden field, then resubmits via the raw DOM submit() (which, unlike
+     * requestSubmit(), does not re-fire the 'submit' event — no loop guard needed).
+     *
+     * @param  string $siteKey Site key passed to the render= API and to execute().
+     * @param  string $action  Action name passed to grecaptcha.execute().
+     * @return string          HTML to inject into the scripts slot.
+     */
+    private static function v3Scripts(string $siteKey, string $action): string
+    {
+        $siteKeyJs = \json_encode($siteKey, \JSON_UNESCAPED_SLASHES);
+        $actionJs  = \json_encode($action, \JSON_UNESCAPED_SLASHES);
+
+        $script = self::minifyInlineJs(<<<JS
+(function () {
+    var el   = document.querySelector('.js-dk-recaptcha-v3');
+    var form = el ? el.closest('form') : null;
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        grecaptcha.ready(function () {
+            grecaptcha.execute({$siteKeyJs}, { action: {$actionJs} }).then(function (token) {
+                el.value = token;
+                form.submit();
+            });
+        });
+    });
+}());
+JS);
+
+        return '<script src="https://www.google.com/recaptcha/api.js?render=' . \rawurlencode($siteKey) . '"></script>'
+            . '<script>' . $script . '</script>';
+    }
+
+    /**
      * Collapses a multi-line JavaScript snippet to a single line.
      *
      * Trims each line, collapses internal whitespace, drops blank lines.
@@ -244,26 +328,27 @@ JS);
      *
      * Captcha is always shown on the register form when this method is called.
      *
-     * @param ContainerInterface $container
-     * @param RecaptchaVerifier  $verifier
-     * @param string             $siteKey
+     * @param ContainerInterface   $container
+     * @param RecaptchaVerifier    $verifier
+     * @param string               $siteKey
+     * @param string               $version        'v2' or 'v3'.
+     * @param array<string, mixed> $registerConfig v3 only: 'min_score', 'action'.
      * @return void
      */
     private static function wireRegister(
         ContainerInterface $container,
         RecaptchaVerifier $verifier,
         string $siteKey,
+        string $version,
+        array $registerConfig,
     ): void {
+        $minScore = isset($registerConfig['min_score']) ? (float) $registerConfig['min_score'] : null;
+        $action   = (string) ($registerConfig['action'] ?? 'register');
+
         $formSlots = $container->get(FormSlotRegistry::class);
 
-        $formSlots->register('register', 'form_fields',
-            '<div class="g-recaptcha mb-3 js-dk-recaptcha"'
-            . ' data-sitekey="' . \htmlspecialchars($siteKey, \ENT_QUOTES) . '"'
-            . ' data-callback="dashboardKitCaptchaSuccess"'
-            . ' data-expired-callback="dashboardKitCaptchaExpired"></div>'
-        );
-
-        $formSlots->register('register', 'scripts', self::captchaScripts());
+        $formSlots->register('register', 'form_fields', self::widgetMarkup($version, $siteKey, $action));
+        $formSlots->register('register', 'scripts', self::scripts($version, $siteKey, $action));
 
         $ipResolver = $container->has(\rafalmasiarek\RealIpResolver::class)
             ? $container->get(\rafalmasiarek\RealIpResolver::class)
@@ -273,6 +358,8 @@ JS);
         $container->set('auth.before_register', static fn() => static function (ServerRequestInterface $request) use (
             $existing,
             $verifier,
+            $minScore,
+            $action,
             $ipResolver,
         ): ?string {
             if ($existing !== null) {
@@ -288,7 +375,7 @@ JS);
                 ? ($ipResolver->getIp() ?: '')
                 : (string) ($request->getServerParams()['REMOTE_ADDR'] ?? '');
 
-            if (!$verifier->verify($token, $ip)) {
+            if (!$verifier->verify($token, $ip, $minScore, $minScore !== null ? $action : null)) {
                 return 'Please complete the CAPTCHA verification.';
             }
 
