@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.0.1...v1.1.0) (2026-09-13)
+
+
+### Features
+
+* support reCAPTCHA v3 (invisible) alongside v2 ([1d40883](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/1d4088328e0be2badd9f6b31b2fb3bf8d51c81e7))
+* support reCAPTCHA v3 (invisible) alongside v2 ([d1e2ae1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/d1e2ae16b4d13b3c213097a7f51f8385c54daeeb))
+
 ## [1.0.1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.0.0...v1.0.1) (2026-09-13)
 
 
