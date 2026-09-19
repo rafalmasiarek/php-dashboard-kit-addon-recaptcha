@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace rafalmasiarek\DashboardKitRecaptcha;
 
+use rafalmasiarek\DashboardKit\Http\HttpClientInterface;
+
 /**
  * Verifies a Google reCAPTCHA v2 or v3 response token against the siteverify API.
  *
@@ -14,10 +16,13 @@ final class RecaptchaVerifier
     private const VERIFY_URL = 'https://www.google.com/recaptcha/api/siteverify';
 
     /**
-     * @param string $secretKey reCAPTCHA secret key from the Google console.
+     * @param HttpClientInterface $http      Client used to call the siteverify API.
+     * @param string              $secretKey reCAPTCHA secret key from the Google console.
      */
-    public function __construct(private readonly string $secretKey)
-    {
+    public function __construct(
+        private readonly HttpClientInterface $http,
+        private readonly string $secretKey,
+    ) {
     }
 
     /**
@@ -44,27 +49,20 @@ final class RecaptchaVerifier
             return false;
         }
 
-        $payload = \http_build_query([
-            'secret'   => $this->secretKey,
-            'response' => $token,
-            'remoteip' => $remoteIp,
-        ]);
-
-        $ctx = \stream_context_create([
-            'http' => [
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-                'content' => $payload,
-                'timeout' => 5,
+        $response = $this->http->request('POST', self::VERIFY_URL, [
+            'body' => [
+                'secret'   => $this->secretKey,
+                'response' => $token,
+                'remoteip' => $remoteIp,
             ],
+            'timeout' => 5.0,
         ]);
 
-        $raw = @\file_get_contents(self::VERIFY_URL, false, $ctx);
-        if ($raw === false) {
+        if ($response->error !== null || $response->body === '') {
             return false;
         }
 
-        $data = \json_decode($raw, true);
+        $data = \json_decode($response->body, true);
         if (!\is_array($data) || ($data['success'] ?? false) !== true) {
             return false;
         }

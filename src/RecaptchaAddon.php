@@ -6,8 +6,11 @@ namespace rafalmasiarek\DashboardKitRecaptcha;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use rafalmasiarek\DashboardKit\Dns\SystemDnsResolver;
 use rafalmasiarek\DashboardKit\Extension\FormSlotRegistry;
 use rafalmasiarek\DashboardKit\Hook\HookRegistry;
+use rafalmasiarek\DashboardKit\Http\CurlHttpClient;
+use rafalmasiarek\DashboardKit\Http\HttpClientInterface;
 use Slim\App;
 
 /**
@@ -52,7 +55,11 @@ final class RecaptchaAddon
             );
         }
 
-        $verifier = new RecaptchaVerifier($secretKey);
+        $http = $container->has(HttpClientInterface::class)
+            ? $container->get(HttpClientInterface::class)
+            : new CurlHttpClient(new SystemDnsResolver());
+
+        $verifier = new RecaptchaVerifier($http, $secretKey);
         $tracker  = new FailedLoginTracker();
 
         $loginConfig    = $config['login']    ?? false;
