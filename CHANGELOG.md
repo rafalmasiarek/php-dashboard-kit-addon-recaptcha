@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.1.0...v1.1.1) (2026-09-19)
+
+
+### Bug Fixes
+
+* **http:** route siteverify calls through dashboard-kit's HttpClientInterface ([3125180](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/312518045f6879f302646a6334fdf8fb4d7c0882))
+
 ## [1.1.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.0.1...v1.1.0) (2026-09-13)
 
 
