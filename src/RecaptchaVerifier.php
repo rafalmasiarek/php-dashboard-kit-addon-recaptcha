@@ -58,11 +58,11 @@ final class RecaptchaVerifier
             'timeout' => 5.0,
         ]);
 
-        if ($response->error !== null || $response->body === '') {
+        if ($response->getError() !== null || $response->getContent() === '') {
             return false;
         }
 
-        $data = \json_decode($response->body, true);
+        $data = \json_decode($response->getContent(), true);
         if (!\is_array($data) || ($data['success'] ?? false) !== true) {
             return false;
         }
