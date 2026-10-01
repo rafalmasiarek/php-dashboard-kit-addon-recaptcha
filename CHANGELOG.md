@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.1.1...v2.0.0) (2026-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* **http:** requires rafalmasiarek/dashboard-kit ^3.0.
+
+### Bug Fixes
+
+* **http:** use HttpResponseInterface methods instead of HttpResponse properties ([2f26550](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/2f26550030d2c06237cf8dcf47d64f195cd698b9))
+
 ## [1.1.1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.1.0...v1.1.1) (2026-09-19)
 
 
