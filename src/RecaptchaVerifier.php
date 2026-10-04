@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace rafalmasiarek\DashboardKitRecaptcha;
 
-use rafalmasiarek\DashboardKit\Http\HttpClientInterface;
+use rafalmasiarek\HttpClient\HttpClientInterface;
 
 /**
  * Verifies a Google reCAPTCHA v2 or v3 response token against the siteverify API.
