@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v2.0.0...v3.0.0) (2026-10-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **http:** requires rafalmasiarek/dashboard-kit ^4.0.
+
+### Features
+
+* **http:** use rafalmasiarek/http-client and dashboard-kit v4 ([#10](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/issues/10)) ([ba74c83](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/ba74c83b29fa8be41f025b86af14cfcbd991ff84))
+
 ## [2.0.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v1.1.1...v2.0.0) (2026-10-01)
 
 
