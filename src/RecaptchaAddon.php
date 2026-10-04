@@ -6,11 +6,11 @@ namespace rafalmasiarek\DashboardKitRecaptcha;
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use rafalmasiarek\DashboardKit\Dns\SystemDnsResolver;
 use rafalmasiarek\DashboardKit\Extension\FormSlotRegistry;
 use rafalmasiarek\DashboardKit\Hook\HookRegistry;
-use rafalmasiarek\DashboardKit\Http\CurlHttpClient;
-use rafalmasiarek\DashboardKit\Http\HttpClientInterface;
+use rafalmasiarek\HttpClient\CurlHttpClient;
+use rafalmasiarek\HttpClient\Dns\SystemDnsResolver;
+use rafalmasiarek\HttpClient\HttpClientInterface;
 use Slim\App;
 
 /**
