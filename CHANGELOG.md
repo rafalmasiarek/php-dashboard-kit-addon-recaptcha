@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.2](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.1...v3.0.2) (2026-10-05)
+
+
+### Bug Fixes
+
+* **deps:** allow dashboard-kit ^5.0 ([#14](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/issues/14)) ([70a31af](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/70a31aff4c15c0462d2d90bb3fa6b57efa826ecb))
+
 ## [3.0.1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.0...v3.0.1) (2026-10-05)
 
 
