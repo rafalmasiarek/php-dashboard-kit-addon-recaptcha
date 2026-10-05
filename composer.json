@@ -6,7 +6,7 @@
   "require": {
     "php": ">=8.2",
     "rafalmasiarek/dashboard-kit": "^4.0",
-    "rafalmasiarek/http-client": "^1.0"
+    "rafalmasiarek/http-client": "^1.0.1"
   },
   "autoload": {
     "psr-4": {
