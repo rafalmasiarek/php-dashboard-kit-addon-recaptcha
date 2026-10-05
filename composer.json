@@ -5,7 +5,7 @@
   "license": "BUSL-1.1",
   "require": {
     "php": ">=8.2",
-    "rafalmasiarek/dashboard-kit": "^4.0",
+    "rafalmasiarek/dashboard-kit": "^4.0 || ^5.0",
     "rafalmasiarek/http-client": "^1.0.1"
   },
   "autoload": {
