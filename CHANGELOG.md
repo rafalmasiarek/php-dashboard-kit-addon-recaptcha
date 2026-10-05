@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.0...v3.0.1) (2026-10-05)
+
+
+### Bug Fixes
+
+* **http:** correct rafalmasiarek/http-client namespace ([#12](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/issues/12)) ([98b2d76](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/98b2d76c59ed70ede2aea40e07c2ade88efa750a))
+
 ## [3.0.0](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v2.0.0...v3.0.0) (2026-10-04)
 
 
