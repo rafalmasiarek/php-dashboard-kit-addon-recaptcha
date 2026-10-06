@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use rafalmasiarek\DashboardKit\Extension\FormSlotRegistry;
 use rafalmasiarek\DashboardKit\Hook\HookRegistry;
-use rafalmasiarek\HttpClient\Dns\SystemDnsResolver;
+use rafalmasiarek\DnsResolver\SystemDnsResolver;
 use rafalmasiarek\HttpClient\Http\CurlHttpClient;
 use rafalmasiarek\HttpClient\Http\HttpClientInterface;
 use Slim\App;
