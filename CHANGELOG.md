@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.2...v3.0.3) (2026-10-06)
+
+
+### Bug Fixes
+
+* follow http-client's DNS namespace move, widen constraint to ^2.0 ([#16](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/issues/16)) ([bfb8183](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/bfb818390e63d1c4c8042aba986cfff61ba951eb))
+
 ## [3.0.2](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.1...v3.0.2) (2026-10-05)
 
 
