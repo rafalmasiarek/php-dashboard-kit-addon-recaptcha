@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.4](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.3...v3.0.4) (2026-10-07)
+
+
+### Bug Fixes
+
+* **deps:** accept rafalmasiarek/dns-resolver ^0.2.0 ([0fe4d94](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/0fe4d94ef9e47a8383f961bd413373dcf02c358a))
+
 ## [3.0.3](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.2...v3.0.3) (2026-10-06)
 
 
