@@ -1,9 +1,17 @@
 # **DEPRECATED** dashboard-kit-addon-recaptcha
 ### **THIS REPOSITORY IS NO LONGER MAINTAINED**
+
+
 [![Packagist Version](https://img.shields.io/packagist/v/rafalmasiarek/dashboard-kit-addon-recaptcha)](https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha)
 [![Total Downloads](https://img.shields.io/packagist/dt/rafalmasiarek/dashboard-kit-addon-recaptcha)](https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha)
 [![PHP](https://img.shields.io/packagist/php-v/rafalmasiarek/dashboard-kit-addon-recaptcha)](https://packagist.org/packages/rafalmasiarek/dashboard-kit-addon-recaptcha)
 [![License](https://img.shields.io/badge/license-BUSL--1.1-red)](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/blob/main/LICENSE)
+
+
+
+
+
+
 
 **This repository is no longer developed.**
 
@@ -13,6 +21,33 @@ Superseded by [rafalmasiarek/dashboard-kit-addon-captcha](https://github.com/raf
 Google reCAPTCHA v2 addon for [rafalmasiarek/dashboard-kit](https://github.com/rafalmasiarek/php-dashboard-kit).
 
 Injects the captcha widget into login and register forms via the `FormSlotRegistry` extension point. Server-side verification uses the `before_login` / `before_register` hook chain.
+
+
+
+
+
+
+
+## License
+
+![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-red)
+
+Business Source License 1.1.
+
+Source available; commercial use restricted until 2099-01-01.
+
+
+
+
+See [LICENSE](LICENSE) for full details.
+
+For alternative licensing, [contact us](https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.).
+
+
+
+## Authors
+
+- Rafał Masiarek | [website](https://masiarek.pl) | [github](https://github.com/rafalmasiarek)
 
 
 
@@ -426,24 +461,6 @@ Verify a g-recaptcha-response token from a form submission. $minScore and $expec
 </details>
 
 
-
-## License
-
-![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-red)
-
-Business Source License 1.1.
-
-Source available; commercial use restricted until 2099-01-01.
-
-
-For alternative licensing, contact: https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.
-
-
-
-See [LICENSE](LICENSE) for full details.
-## Authors
-
-- Rafał Masiarek | [website](https://masiarek.pl) | [github](https://github.com/rafalmasiarek)
 
 
 <!-- references -->
