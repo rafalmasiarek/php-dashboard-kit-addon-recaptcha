@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.5](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.4...v3.0.5) (2026-11-17)
+
+
+### Bug Fixes
+
+* rename includes to footer_includes in README.yml ([#23](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/issues/23)) ([e2aa732](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/commit/e2aa732706494506ca449633944b66210bca8e90))
+
 ## [3.0.4](https://github.com/rafalmasiarek/php-dashboard-kit-addon-recaptcha/compare/v3.0.3...v3.0.4) (2026-10-07)
 
 
