@@ -16,17 +16,6 @@ Injects the captcha widget into login and register forms via the `FormSlotRegist
 
 
 
-## License
-![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-red)
-
-Business Source License 1.1.
-Source available; commercial use restricted until 2099-01-01.
-For alternative licensing, contact: https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.
-See [LICENSE](LICENSE) for full details.
-## Authors
-
-- Rafał Masiarek | [website](https://masiarek.pl) | [github](https://github.com/rafalmasiarek)
-
 
 ## Requirements
 
@@ -437,6 +426,24 @@ Verify a g-recaptcha-response token from a form submission. $minScore and $expec
 </details>
 
 
+
+## License
+
+![License: BUSL-1.1](https://img.shields.io/badge/license-BUSL--1.1-red)
+
+Business Source License 1.1.
+
+Source available; commercial use restricted until 2099-01-01.
+
+
+For alternative licensing, contact: https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.
+
+
+
+See [LICENSE](LICENSE) for full details.
+## Authors
+
+- Rafał Masiarek | [website](https://masiarek.pl) | [github](https://github.com/rafalmasiarek)
 
 
 <!-- references -->
