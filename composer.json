@@ -1,6 +1,6 @@
 {
   "name": "rafalmasiarek/dashboard-kit-addon-recaptcha",
-  "description": "Google reCAPTCHA v2 addon for rafalmasiarek/dashboard-kit. Injects captcha into login and register forms with always or x-failed-attempts modes.",
+  "description": "Google reCAPTCHA v2 addon for rafalmasiarek/dashboard-kit. Injects captcha into login and register forms with always or x-failed-attempts modes. DEPRECATED: no longer developed, superseded by rafalmasiarek/dashboard-kit-addon-captcha -- use that package instead.",
   "type": "library",
   "license": "BUSL-1.1",
   "require": {
