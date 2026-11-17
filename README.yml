@@ -4,6 +4,8 @@ license: BUSL-1.1
 license_change_date: "2099-01-01"
 license_contact: https://masiarek.pl/contact/?af_subject=Commercial+license+%E2%80%94+dashboard-kit-addon-recaptcha&af_message=Hello%2C+I+am+interested+in+a+commercial+license+for+dashboard-kit-addon-recaptcha.
 
+deprecated: {}
+
 badges:
   - name: Packagist Version
     image: https://img.shields.io/packagist/v/rafalmasiarek/dashboard-kit-addon-recaptcha
@@ -20,6 +22,11 @@ badges:
 
 
 context:
+  - |
+    **This repository is no longer developed.**
+
+    Superseded by [rafalmasiarek/dashboard-kit-addon-captcha](https://github.com/rafalmasiarek/php-dashboard-kit-addon-captcha), which covers reCAPTCHA (v2/v3), Cloudflare Turnstile, and hCaptcha through one generalized integration. Please migrate to that package — it is the actively developed replacement.
+
   - |
     Google reCAPTCHA v2 addon for [rafalmasiarek/dashboard-kit](https://github.com/rafalmasiarek/php-dashboard-kit).
 
