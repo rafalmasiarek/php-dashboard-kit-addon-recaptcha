@@ -32,7 +32,7 @@ context:
 
     Injects the captcha widget into login and register forms via the `FormSlotRegistry` extension point. Server-side verification uses the `before_login` / `before_register` hook chain.
 
-includes:
+footer_includes:
   - docs/usage.md
   - docs/api.md
 
